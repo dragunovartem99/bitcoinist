@@ -2,7 +2,7 @@ import { domElements } from "./domElements.js";
 import { getHtmlTemplate } from "./getHtmlTemplate.js";
 import { formatBTC } from "./format.js";
 
-export const render = {
+export const ui = {
 	removeInnerHtml(htmlElement) {
 		htmlElement.innerHTML = "";
 	},
@@ -10,15 +10,15 @@ export const render = {
 		const $app = domElements.containers.app;
 		$app.style.opacity = value;
 	},
-	welcomeMessage(firstName) {
+	renderWelcome(firstName) {
 		const $welcome = domElements.labels.welcome;
 		$welcome.textContent = `Welcome back, ${firstName}!`;
 	},
-	totalBalance(amount) {
+	renderTotal(amount) {
 		const $balance = domElements.labels.balance;
 		$balance.innerHTML = formatBTC(amount);
 	},
-	history(history) {
+	renderHistory(history) {
 		const $container = domElements.containers.movements;
 
 		this.removeInnerHtml($container);
@@ -28,15 +28,16 @@ export const render = {
 			$container.insertAdjacentHTML("beforeend", movementHTML);
 		});
 	},
-	ui(user) {
+	renderUserData(user) {
 		const totalBalance = user.history.reduce(
 			(sum, cur) => sum + cur.movement,
 			0
 		);
 
+		this.renderWelcome(user.firstName);
+		this.renderTotal(totalBalance);
+		this.renderHistory(user.history);
+
 		this.setAppVisibility(1);
-		this.welcomeMessage(user.firstName);
-		this.totalBalance(totalBalance);
-		this.history(user.history);
 	},
 };
