@@ -1,120 +1,19 @@
 "use strict";
 
-const domElements = {
-	labels: {
-		welcome: document.querySelector(".welcome"),
-		date: document.querySelector(".date"),
-		balance: document.querySelector(".balance__value"),
-		sumIn: document.querySelector(".summary__value--in"),
-		sumOut: document.querySelector(".summary__value--out"),
-		interest: document.querySelector(".summary__value--interest"),
-		timer: document.querySelector(".timer"),
-	},
-	containers: {
-		app: document.querySelector(".app"),
-		movements: document.querySelector(".movements"),
-	},
-	buttons: {
-		btnLogin: document.querySelector(".login__btn"),
-		btnTransfer: document.querySelector(".form__btn--transfer"),
-		btnLoan: document.querySelector(".form__btn--loan"),
-		btnClose: document.querySelector(".form__btn--close"),
-		btnSort: document.querySelector(".btn--sort"),
-	},
-	inputs: {
-		inputLoginUsername: document.querySelector(".login__input--user"),
-		inputLoginPin: document.querySelector(".login__input--pin"),
-		inputTransferTo: document.querySelector(".form__input--to"),
-		inputTransferAmount: document.querySelector(".form__input--amount"),
-		inputLoanAmount: document.querySelector(".form__input--loan-amount"),
-		inputCloseUsername: document.querySelector(".form__input--user"),
-		inputClosePin: document.querySelector(".form__input--pin"),
-	},
-};
+import { domElements } from "./modules/domElements.js";
+import { auth } from "./modules/auth.js";
+import { user } from "./modules/user.js";
+import { render } from "./modules/render.js";
 
-const getHtmlTemplate = {
-	movement({ movement, index }) {
-		const isDeposit = movement > 0;
-		const movementType = isDeposit ? "deposit" : "withdrawal";
+domElements.forms.login.addEventListener("submit", function (event) {
+	event.preventDefault();
 
-		return `
-			<div class="movements__row">
-				<div class="movements__type movements__type--${movementType}">
-					${index + 1} ${movementType}
-				</div>
-				<div class="movements__date">24/01/2037</div>
-				<div class="movements__value">${movement}₿</div>
-			</div>;
-		`;
-	},
-};
+	const username = this["login-username"].value;
+	const password = this["login-password"].value;
 
-const render = {
-	removeInnerHtml(htmlElement) {
-		htmlElement.innerHTML = "";
-	},
-	movements(movements) {
-		const {
-			containers: { movements: $container },
-		} = domElements;
-
-		this.removeInnerHtml($container);
-
-		movements.forEach((movement, index) => {
-			const movementHTML = getHtmlTemplate.movement({ movement, index });
-			$container.insertAdjacentHTML("afterbegin", movementHTML);
-		});
-	},
-};
-
-const accounts = [
-	{
-		owner: "Jonas Schmedtmann",
-		movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
-		interestRate: 1.2, // %
-		pin: 1111,
-	},
-	{
-		owner: "Jessica Davis",
-		movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
-		interestRate: 1.5,
-		pin: 2222,
-	},
-	{
-		owner: "Steven Thomas Williams",
-		movements: [200, -200, 340, -300, -20, 50, 400, -460],
-		interestRate: 0.7,
-		pin: 3333,
-	},
-	{
-		owner: "Sarah Smith",
-		movements: [430, 1000, 700, 50, 90],
-		interestRate: 1,
-		pin: 4444,
-	},
-];
-
-const app = {
-	generateUsernames(accounts) {
-		accounts.forEach((account) => {
-			const ownerNameAbbr = account.owner
-				.split(" ")
-				.map(({ 0: firstLetter }) => firstLetter.toUpperCase())
-				.join("");
-
-			account.username = ownerNameAbbr;
-		});
-	},
-	init(account) {
-		this.generateUsernames(accounts);
-		render.movements(account.movements);
-	},
-};
-
-const currencies = new Map([
-	["USD", "United States dollar"],
-	["EUR", "Euro"],
-	["GBP", "Pound sterling"],
-]);
-
-app.init(accounts[0]); // temp
+	auth.login({ username, password })
+		.then(user.getUserData)
+		.then(render.user)
+		.catch(console.warn)
+		.finally(() => this.reset());
+});
