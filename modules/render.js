@@ -1,5 +1,6 @@
 import { domElements } from "./domElements.js";
 import { getHtmlTemplate } from "./getHtmlTemplate.js";
+import { formatBTC } from "./format.js";
 
 export const render = {
 	removeInnerHtml(htmlElement) {
@@ -7,8 +8,7 @@ export const render = {
 	},
 	totalBalance(amount) {
 		const $balance = domElements.labels.balance;
-
-		$balance.innerHTML = `${amount}₿`;
+		$balance.innerHTML = formatBTC(amount);
 	},
 	history(history) {
 		const $container = domElements.containers.movements;

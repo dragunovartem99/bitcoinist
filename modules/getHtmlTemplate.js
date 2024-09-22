@@ -1,3 +1,5 @@
+import { formatBTC } from "./format.js";
+
 export const getHtmlTemplate = {
 	movement({ movement, id, timestamp }) {
 		const isDeposit = movement > 0;
@@ -10,7 +12,7 @@ export const getHtmlTemplate = {
 					${id} ${movementType}
 				</div>
 				<div class="movements__date">${date}</div>
-				<div class="movements__value">${movement}₿</div>
+				<div class="movements__value">${formatBTC(movement)}</div>
 			</div>;
 		`;
 	},
