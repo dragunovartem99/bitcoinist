@@ -25,8 +25,10 @@ export default {
 		this.removeInnerHtml($containerHistory);
 
 		history.forEach((entry) => {
-			const entryTemplate = getHtmlTemplate.movement(entry);
-			$containerHistory.insertAdjacentHTML("beforeend", entryTemplate);
+			$containerHistory.insertAdjacentHTML(
+				"beforeend",
+				getHtmlTemplate.movement(entry)
+			);
 		});
 	},
 
