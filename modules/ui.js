@@ -10,15 +10,20 @@ export const ui = {
 		const $app = domElements.containers.app;
 		$app.style.opacity = value;
 	},
-	renderWelcome(firstName) {
+	renderWelcome({ firstName }) {
 		const $welcome = domElements.labels.welcome;
 		$welcome.textContent = `Welcome back, ${firstName}!`;
 	},
-	renderTotal(amount) {
+	renderTotal({ history }) {
+		const totalBalance = history.reduce(
+			(sum, cur) => sum + cur.movement,
+			0
+		);
+
 		const $balance = domElements.labels.balance;
-		$balance.innerHTML = formatBTC(amount);
+		$balance.innerHTML = formatBTC(totalBalance);
 	},
-	renderHistory(history) {
+	renderHistory({ history }) {
 		const $container = domElements.containers.movements;
 
 		this.removeInnerHtml($container);
@@ -28,15 +33,25 @@ export const ui = {
 			$container.insertAdjacentHTML("beforeend", movementHTML);
 		});
 	},
-	renderUserData(user) {
-		const totalBalance = user.history.reduce(
-			(sum, cur) => sum + cur.movement,
-			0
-		);
+	renderSummary({ history }) {
+		const { sumIn: $income, sumOut: $withdrawn } = domElements.labels;
 
-		this.renderWelcome(user.firstName);
-		this.renderTotal(totalBalance);
-		this.renderHistory(user.history);
+		const income = history.reduce((sum, cur) => {
+			return cur.movement > 0 ? sum + cur.movement : sum;
+		}, 0);
+
+		const spent = history.reduce((sum, cur) => {
+			return cur.movement < 0 ? sum + Math.abs(cur.movement) : sum;
+		}, 0);
+
+		$income.textContent = formatBTC(income);
+		$withdrawn.textContent = formatBTC(spent);
+	},
+	renderUserData(user) {
+		this.renderWelcome(user);
+		this.renderTotal(user);
+		this.renderHistory(user);
+		this.renderSummary(user);
 
 		this.setAppVisibility(1);
 	},
