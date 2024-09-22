@@ -48,7 +48,6 @@ body {
 
 .header__logo svg {
 	width: 5rem;
-	/* @TODO: refactor */
 }
 
 .login {
