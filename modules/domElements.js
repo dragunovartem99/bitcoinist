@@ -2,7 +2,7 @@ const documentSelect = document.querySelector.bind(document);
 
 export const domElements = {
 	labels: {
-		welcome: documentSelect(".welcome"),
+		welcome: documentSelect(".header__text"),
 		date: documentSelect(".date"),
 		balance: documentSelect(".balance__value"),
 		sumIn: documentSelect(".summary__value--in"),

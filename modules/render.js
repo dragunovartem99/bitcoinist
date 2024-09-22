@@ -6,6 +6,14 @@ export const render = {
 	removeInnerHtml(htmlElement) {
 		htmlElement.innerHTML = "";
 	},
+	setAppVisibility(value) {
+		const $app = domElements.containers.app;
+		$app.style.opacity = value;
+	},
+	welcomeMessage(firstName) {
+		const $welcome = domElements.labels.welcome;
+		$welcome.textContent = `Welcome back, ${firstName}!`;
+	},
 	totalBalance(amount) {
 		const $balance = domElements.labels.balance;
 		$balance.innerHTML = formatBTC(amount);
@@ -26,6 +34,8 @@ export const render = {
 			0
 		);
 
+		this.setAppVisibility(1);
+		this.welcomeMessage(user.firstName);
 		this.totalBalance(totalBalance);
 		this.history(user.history);
 	},
