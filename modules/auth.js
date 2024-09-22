@@ -13,7 +13,7 @@ export const auth = {
 		});
 
 		if (!response.ok) {
-			throw new Error(response.statusText);
+			throw new Error("Wrong credentials!");
 		}
 
 		const user = await response.json();

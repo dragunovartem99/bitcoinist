@@ -14,6 +14,9 @@ domElements.forms.login.addEventListener("submit", function (event) {
 	auth.login({ username, password })
 		.then(user.getUserData)
 		.then(ui.renderUserData.bind(ui))
-		.catch(console.warn)
+		.catch((error) => {
+			console.warn(error);
+			alert(error.message);
+		})
 		.finally(() => this.reset());
 });

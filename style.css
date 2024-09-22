@@ -48,7 +48,6 @@ body {
 
 .header__logo svg {
 	width: 5rem;
-	transform: scale(1.7);
 	/* @TODO: refactor */
 }
 
