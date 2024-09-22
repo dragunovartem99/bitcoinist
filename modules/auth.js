@@ -1,4 +1,4 @@
-import { cookie } from "./cookie.js";
+import cookie from "./cookie.js";
 import makeRequest from "./makeRequest.js";
 
 export default {

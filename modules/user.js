@@ -1,4 +1,4 @@
-import { cookie } from "./cookie.js";
+import cookie from "./cookie.js";
 import { getWalletHistory } from "./getWalletHistory.js";
 
 export const user = {

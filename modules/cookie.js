@@ -1,4 +1,4 @@
-export const cookie = {
+export default {
 	set(key, value) {
 		document.cookie = `${key}=${value}`;
 	},
