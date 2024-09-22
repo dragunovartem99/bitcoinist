@@ -5,6 +5,13 @@ export const render = {
 	removeInnerHtml(htmlElement) {
 		htmlElement.innerHTML = "";
 	},
+	totalBalance(amount) {
+		const {
+			labels: { balance: $balance },
+		} = domElements;
+
+		$balance.innerHTML = `${amount}₿`;
+	},
 	history(history) {
 		const {
 			containers: { movements: $container },
@@ -18,6 +25,14 @@ export const render = {
 		});
 	},
 	ui(user) {
+		console.log(user.history);
+
+		const totalBalance = user.history.reduce(
+			(sum, cur) => sum + cur.movement,
+			0
+		);
+
+		this.totalBalance(totalBalance);
 		this.history(user.history);
 	},
 };
