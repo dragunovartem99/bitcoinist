@@ -1,58 +1,65 @@
-import { domElements } from "./domElements.js";
+import elementsDOM from "./elementsDOM.js";
 import { getHtmlTemplate } from "./getHtmlTemplate.js";
 import { formatBTC } from "./format.js";
 
-export const ui = {
+export default {
 	removeInnerHtml(htmlElement) {
 		htmlElement.innerHTML = "";
 	},
+
 	setAppVisibility(value) {
-		const $app = domElements.containers.app;
-		$app.style.opacity = value;
-	},
-	renderWelcome({ firstName }) {
-		const $welcome = domElements.labels.welcome;
-		$welcome.textContent = `Welcome back, ${firstName}!`;
-	},
-	renderTotal({ history }) {
-		const totalBalance = history.reduce(
-			(sum, cur) => sum + cur.movement,
-			0
-		);
+		const { $containerMain } = elementsDOM;
 
-		const $balance = domElements.labels.balance;
-		$balance.innerHTML = formatBTC(totalBalance);
+		$containerMain.style.opacity = value;
 	},
-	renderHistory({ history }) {
-		const $container = domElements.containers.movements;
 
-		this.removeInnerHtml($container);
+	renderWelcome(firstName) {
+		const { $labelWelcome } = elementsDOM;
 
-		history.forEach((movement) => {
-			const movementHTML = getHtmlTemplate.movement(movement);
-			$container.insertAdjacentHTML("beforeend", movementHTML);
+		$labelWelcome.textContent = `Welcome back, ${firstName}!`;
+	},
+
+	renderHistory(history) {
+		const { $containerHistory } = elementsDOM;
+
+		this.removeInnerHtml($containerHistory);
+
+		history.forEach((entry) => {
+			const entryTemplate = getHtmlTemplate.movement(entry);
+			$containerHistory.insertAdjacentHTML("beforeend", entryTemplate);
 		});
 	},
-	renderSummary({ history }) {
-		const { sumIn: $income, sumOut: $withdrawn } = domElements.labels;
 
-		const income = history.reduce((sum, cur) => {
+	renderTotal(totalBalance) {
+		const { $labelTotalBalance } = elementsDOM;
+
+		$labelTotalBalance.innerHTML = formatBTC(totalBalance);
+	},
+
+	renderSummary({ incoming, outgoing }) {
+		const { $labelIncoming, $labelOutgoing } = elementsDOM;
+
+		$labelIncoming.textContent = formatBTC(incoming);
+		$labelOutgoing.textContent = formatBTC(outgoing);
+	},
+
+	renderUserData({ firstName, history }) {
+		const incoming = history.reduce((sum, cur) => {
 			return cur.movement > 0 ? sum + cur.movement : sum;
 		}, 0);
 
-		const spent = history.reduce((sum, cur) => {
+		const outgoing = history.reduce((sum, cur) => {
 			return cur.movement < 0 ? sum + Math.abs(cur.movement) : sum;
 		}, 0);
 
-		$income.textContent = formatBTC(income);
-		$withdrawn.textContent = formatBTC(spent);
-	},
-	renderUserData(user) {
-		this.renderWelcome(user);
-		this.renderTotal(user);
-		this.renderHistory(user);
-		this.renderSummary(user);
+		const totalBalance = incoming - outgoing;
 
 		this.setAppVisibility(1);
+		this.renderWelcome(firstName);
+
+		this.renderHistory(history);
+
+		this.renderTotal(totalBalance);
+		this.renderSummary({ incoming, outgoing });
 	},
 };

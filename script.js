@@ -1,11 +1,13 @@
 "use strict";
 
-import { domElements } from "./modules/domElements.js";
-import { auth } from "./modules/auth.js";
-import { user } from "./modules/user.js";
-import { ui } from "./modules/ui.js";
+import elementsDOM from "./modules/elementsDOM.js";
+import auth from "./modules/auth.js";
+import user from "./modules/user.js";
+import ui from "./modules/ui.js";
 
-domElements.forms.login.addEventListener("submit", function (event) {
+const { $formLogin } = elementsDOM;
+
+$formLogin.addEventListener("submit", function (event) {
 	event.preventDefault();
 
 	const username = this["login-username"].value;

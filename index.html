@@ -16,7 +16,7 @@
 	</head>
 	<body>
 		<header class="header">
-			<p class="header__text">Log in to get started</p>
+			<p class="header__text" id="label-welcome">Log in to get started</p>
 			<div class="header__logo">
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
@@ -73,7 +73,7 @@
 				<button class="login__btn">&rarr;</button>
 			</form>
 		</header>
-		<main class="app">
+		<main class="app" id="container-main">
 			<div class="balance">
 				<div>
 					<p class="balance__label">Current balance</p>
@@ -81,17 +81,29 @@
 						As of <span class="date">05/03/2037</span>
 					</p>
 				</div>
-				<p class="balance__value">0₿</p>
+				<p class="balance__value" id="label-total-balance">0₿</p>
 			</div>
-			<div class="movements"></div>
+			<div class="movements" id="container-history"></div>
 			<div class="summary">
 				<p class="summary__label">In</p>
-				<p class="summary__value summary__value--in">0₿</p>
+				<p
+					class="summary__value summary__value--in"
+					id="label-incoming"
+				>
+					0₿
+				</p>
 				<p class="summary__label">Out</p>
-				<p class="summary__value summary__value--out">0₿</p>
+				<p
+					class="summary__value summary__value--out"
+					id="label-outgoing"
+				>
+					0₿
+				</p>
 				<p class="summary__label">Interest</p>
 				<p class="summary__value summary__value--interest">0₿</p>
-				<button class="btn--sort">&downarrow; SORT</button>
+				<button class="btn--sort" id="button-sort">
+					&downarrow; SORT
+				</button>
 			</div>
 			<div class="operation operation--transfer">
 				<h2>Transfer money</h2>

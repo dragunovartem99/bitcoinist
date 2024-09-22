@@ -1,22 +1,18 @@
-import { cookie } from "./cookie.js";
+import cookie from "./cookie.js";
+import makeRequest from "./makeRequest.js";
 
-export const auth = {
+export default {
 	async login({ username, password }) {
-		const response = await fetch("https://dummyjson.com/user/login", {
+		const options = {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				username,
-				password,
-				expiresInMins: 30,
-			}),
+			body: JSON.stringify({ username, password, expiresInMins: 30 }),
+		};
+
+		const user = await makeRequest("/user/login", options).catch(() => {
+			throw new Error("Wrong credentials");
 		});
 
-		if (!response.ok) {
-			throw new Error("Wrong credentials!");
-		}
-
-		const user = await response.json();
 		cookie.set("jwt", user.accessToken);
 
 		return user;
