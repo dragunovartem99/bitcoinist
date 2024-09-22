@@ -1,4 +1,4 @@
-import { domElements } from "./domElements.js";
+import domElements from "./elementsDOM.js";
 import { getHtmlTemplate } from "./getHtmlTemplate.js";
 import { formatBTC } from "./format.js";
 
@@ -7,11 +7,11 @@ export const ui = {
 		htmlElement.innerHTML = "";
 	},
 	setAppVisibility(value) {
-		const $app = domElements.containers.app;
+		const { $app } = domElements.containers;
 		$app.style.opacity = value;
 	},
 	renderWelcome({ firstName }) {
-		const $welcome = domElements.labels.welcome;
+		const { $welcome } = domElements.labels;
 		$welcome.textContent = `Welcome back, ${firstName}!`;
 	},
 	renderTotal({ history }) {
