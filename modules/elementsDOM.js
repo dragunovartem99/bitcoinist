@@ -1,17 +1,17 @@
-const get = document.querySelector.bind(document);
+const get = document.getElementById.bind(document);
 
 export default {
-	$formLogin: get("#form-login"),
+	$formLogin: get("form-login"),
 
-	$labelWelcome: get("#header-text"),
-	$labelIncoming: get("#incoming"),
-	$labelOutgoing: get("#outgoing"),
-	$labelTotalBalance: get("#total-balance"),
+	$labelWelcome: get("label-welcome"),
+	$labelIncoming: get("label-incoming"),
+	$labelOutgoing: get("label-outgoing"),
+	$labelTotalBalance: get("label-total-balance"),
 
-	$containerMain: get("#app"),
-	$containerHistory: get("#history-list"),
+	$containerMain: get("container-main"),
+	$containerHistory: get("container-history"),
 
-	$buttonSort: get(".btn--sort"),
+	$buttonSort: get("button-sort"),
 
 	// date: get(".date"),
 	// interest: get(".summary__value--interest"),
