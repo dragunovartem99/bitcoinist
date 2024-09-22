@@ -1,6 +1,6 @@
 import { formatBTC } from "./format.js";
 
-export const getHtmlTemplate = {
+export default {
 	movement({ movement, id, timestamp }) {
 		const isDeposit = movement > 0;
 		const movementType = isDeposit ? "deposit" : "withdrawal";

@@ -1,5 +1,5 @@
 import elementsDOM from "./elementsDOM.js";
-import { getHtmlTemplate } from "./getHtmlTemplate.js";
+import getHtmlTemplate from "./getHtmlTemplate.js";
 import { formatBTC } from "./format.js";
 
 export default {
