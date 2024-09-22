@@ -1,9 +1,19 @@
 export default {
+	extractValue(chunks) {
+		return chunks.pop().split(";").shift();
+	},
 	set(key, value) {
 		document.cookie = `${key}=${value}`;
 	},
 	get(key) {
-		const pair = `; ${document.cookie}`.match(`;\\s*${key}=([^;]+)`);
-		return pair ? pair[1] : null;
+		// Insert ; to make it work when desired cookie is first
+		const browserCookies = `; ${document.cookie}`;
+
+		const chunks = browserCookies.split(`; ${key}=`);
+		const hasKey = chunks.length === 2;
+
+		if (hasKey) {
+			return this.extractValue(chunks);
+		}
 	},
 };
