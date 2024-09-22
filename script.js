@@ -13,7 +13,7 @@ domElements.forms.login.addEventListener("submit", function (event) {
 
 	auth.login({ username, password })
 		.then(user.getUserData)
-		.then(render.user)
+		.then(render.ui.bind(render))
 		.catch(console.warn)
 		.finally(() => this.reset());
 });

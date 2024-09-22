@@ -1,4 +1,5 @@
 import { cookie } from "./cookie.js";
+import { getWalletHistory } from "./getWalletHistory.js";
 
 export const user = {
 	async getUserData() {
@@ -16,6 +17,8 @@ export const user = {
 		}
 
 		const user = await response.json();
+		user.history = getWalletHistory(user.crypto.wallet);
+
 		return user;
 	},
 };
