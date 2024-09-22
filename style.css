@@ -9,6 +9,8 @@
 
 	--color-light-0: #f8f5ec;
 	--color-light-1: #f0ebd8;
+
+	--color-error: #ba4141;
 }
 
 * {
@@ -327,4 +329,16 @@ h2 {
 
 .timer {
 	font-weight: 600;
+}
+
+/* Notifications */
+
+.toastify {
+	font-size: 1.6rem;
+	box-shadow: none;
+	background: var(--color-neutral-2);
+}
+
+.toastify--error {
+	background: var(--color-error);
 }
