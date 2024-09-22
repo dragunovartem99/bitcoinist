@@ -17,7 +17,11 @@ export const user = {
 		}
 
 		const user = await response.json();
-		user.history = getWalletHistory(user.crypto.wallet);
+
+		user.history = getWalletHistory({
+			// wallet: user.crypto.wallet,
+			userID: user.id,
+		});
 
 		return user;
 	},

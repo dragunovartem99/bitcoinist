@@ -1,25 +1,22 @@
-export function getWalletHistory(wallet) {
+export function getWalletHistory({ userID }) {
 	const result = [];
-	const elementCount = Math.floor((wallet.length - 2) / 8); // Calculate number of elements based on hex length
+	const length = Math.floor((userID % 11) + 5); // Generates a length between 5 and 15
+	const seed = userID ^ (userID << 3) ^ (userID >> 2); // Mix the bits of userID
 
-	for (let i = 0; i < elementCount; i++) {
-		const start = 2 + i * 8;
+	for (let i = 0; i < length; i++) {
+		const id = i.toString(16); // Convert to hex
 
-		const id = wallet.slice(start, start + 2);
-		const baseAmount =
-			parseInt(wallet.slice(start + 2, start + 4), 16) / 1000; // Base amount for BTC
-		const amount = i % 2 === 0 ? baseAmount : -baseAmount; // Alternate sign
+		// Generate a more random-like amount using bitwise operations and i
+		const randomFactor = (seed ^ (i << 5)) & 0xff; // Adjust randomness with i
+		const amount = (randomFactor % 50) * (i % 2 === 0 ? 1 : -1); // Range from -50 to 49
 
-		const daysAgo = i % 7; // Days from 0 to 6
-		const timestamp = Date.now() - daysAgo * 24 * 60 * 60 * 1000; // Subtract days in milliseconds
-		const timeDifference = Date.now() - timestamp; // Time difference in milliseconds
+		const timestamp = Date.now() - (i + userID) * 999 * 60 * 60;
 
 		result.push({
 			id: `0x${id}`,
 			movement: amount,
-			timeDifference: timeDifference, // Time difference in milliseconds
+			timestamp,
 		});
 	}
-
 	return result;
 }

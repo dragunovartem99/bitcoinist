@@ -15,9 +15,9 @@ export const render = {
 
 		this.removeInnerHtml($container);
 
-		history.forEach(({ movement, id }) => {
-			const movementHTML = getHtmlTemplate.movement({ movement, id });
-			$container.insertAdjacentHTML("afterbegin", movementHTML);
+		history.forEach((movement) => {
+			const movementHTML = getHtmlTemplate.movement(movement);
+			$container.insertAdjacentHTML("beforeend", movementHTML);
 		});
 	},
 	ui(user) {
