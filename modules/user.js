@@ -1,27 +1,17 @@
 import cookie from "./cookie.js";
+import makeRequest from "./makeRequest.js";
 import { getWalletHistory } from "./getWalletHistory.js";
 
-export const user = {
+export default {
 	async getUserData() {
 		const token = cookie.get("jwt");
-
-		const response = await fetch("https://dummyjson.com/auth/me", {
+		const options = {
 			method: "GET",
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
+			headers: { Authorization: `Bearer ${token}` },
+		};
 
-		if (!response.ok) {
-			throw new Error(response.statusText);
-		}
-
-		const user = await response.json();
-
-		user.history = getWalletHistory({
-			// wallet: user.crypto.wallet,
-			userID: user.id,
-		});
+		const user = await makeRequest("/auth/me", options);
+		user.history = getWalletHistory({ userID: user.id });
 
 		return user;
 	},
