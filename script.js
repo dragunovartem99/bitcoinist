@@ -29,12 +29,12 @@ document.addEventListener("DOMContentLoaded", function () {
 $formLogin.addEventListener("submit", function (event) {
 	event.preventDefault();
 
-	const username = this["login-username"].value;
-	const password = this["login-password"].value;
+	const { value: username } = this["login-username"];
+	const { value: password } = this["login-password"];
 
 	auth.login({ username, password })
 		.then(user.getUserData)
-		.then(ui.renderUserData.bind(ui))
+		.then((user) => ui.renderUserData(user))
 		.then(() => this.reset())
 		.catch((error) => {
 			console.warn(error);
